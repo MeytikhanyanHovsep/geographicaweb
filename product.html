@@ -11,110 +11,149 @@
 </head>
 
 <body>
-    <header x-data="headerData" class="sm:border-b mb-5 text-dark z-20 top-0 left-0 h-20 border-dark/20 w-full">
-        <div
-            class="container relative max-sm:flex-wrap max-sm:gap-[20px] max-xl:gap-[40px] h-full flex items-center justify-between">
-            <span class="absolute sm:hidden -translate-1/2 left-1/2 top-[50px] w-[200%] h-px bg-white/30"></span>
-            <a class="/">
-                <h1 class="uppercase text-[25.5px] max-sm:text-[16.5px] text-dark font-semibold">Географика</h1>
+    <header x-data="{ 
+        searchOpen: false, 
+        openedIndex: null,
+        menuItems: [
+            { name: 'Натуральные камни', sub: ['Гранит', 'Мрамор', 'Сланец'], link: '/pages/stone-catalog.html' },
+            { name: 'Изделия из камней', sub: ['Столешницы', 'Лестницы'], link: '/pages/stone-catalog.html' },
+            { name: 'Услуги', sub: ['Монтаж', 'Доставка'], link: '/pages/services.html' },
+            { name: 'Блог', link: '/pages/blog.html' },
+            { name: 'О компании', link: '/pages/about.html' },
+            { name: 'Контакты', link: '/pages/contacts.html' }
+        ],
+        mobileMenu: [
+            { name: 'Главная', link: '/', icon:'home' },
+            { name: 'Камни', link: '/stone-catalog' , icon:'stone'},
+            { name: 'Изделия', link: '/stone-catalog' , icon:'catalog'},
+            { name: 'Услуги', link: 'services' , icon:'document'},
+            {name:'Меню',link: 'services', icon:'menu'}
+        ]
+    }"
+        class="sm:border-b absolute max-sm:flex-col max-sm:flex z-20 top-0 left-0 max-sm:h-[112px] max-sm:border-0 h-20 border-white/30 w-full">
+        <div class="container gap-[14px]  relative h-full flex items-center justify-between">
+
+            <a href="/" class="z-50 shrink-0">
+                <h1 class="uppercase font-forum leading-[100%] text-[28.5px] max-sm:text-[16.5px] text-white">Географика
+                </h1>
             </a>
-            <nav class=" max-sm:hidden w-full flex justify-center">
-                <ul class="flex max-xl:hidden antialiased tracking-[0.5px] gap-[25px] items-center"
-                    @click.outside="openedIndex = null">
 
-                    <template x-for="(item, index) in menuItems" :key="index">
-                        <li class="relative">
+            <div class="flex-1 flex justify-end items-center h-full relative ">
 
-                            <template x-if="item.sub">
-                                <button type="button" @click.stop="openedIndex = (openedIndex === index ? null : index)"
-                                    class="text-dark group hover:text-primary leading-none flex items-center transition-all duration-300 gap-[10px] outline-none cursor-pointer"
-                                    :class="openedIndex === index ? 'text-primary' : ''">
+                <div x-show="searchOpen" @click.outside="searchOpen = false; openedIndex = null" x-cloak
+                    x-transition:enter="transition all duration-500 ease-out"
+                    x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition all duration-300 ease-in" x-transition:leave-end="opacity-0 scale-95"
+                    class="absolute max-sm:hidden! inset-0 flex items-center justify-center z-40">
+                    <div
+                        class="max-w-[861px] w-full will-change-transform bg-white h-[50px] flex items-center px-4 shadow-2xl">
+                        <input type="text" placeholder="Поиск" @click.stop
+                            class="w-full will-change-transform bg-transparent border-none outline-none text-[#1a1a1a] text-[16px] placeholder:text-gray-400">
+                        <div class="bg-[#1a1a1a] will-change-transform w-5 h-5 opacity-60 cursor-pointer"
+                            style="mask: url('/images/icons/search.svg') no-repeat center; -webkit-mask: url('/images/icons/search.svg') no-repeat center; mask-size: contain;">
+                        </div>
+                    </div>
+                </div>
 
-                                    <span x-text="item.name" class="transition-all duration-300"
-                                        :class="openedIndex === index ? 'text-primary' : ''"></span>
+                <nav class="max-sm:hidden max-w-full flex justify-center transition-all duration-500"
+                    :class="searchOpen ? 'opacity-0 pointer-events-none translate-y-2' : 'opacity-100 translate-y-0'">
+                    <ul
+                        class="flex max-xl:hidden max-w-max justify-end antialiased tracking-[0.5px] max-2xl:gap-[23px] gap-[25px] items-center">
 
-                                    <span class="w-[10px] h-[6px] transition-all duration-300"
-                                        :class="openedIndex === index ? 'bg-primary rotate-180' : 'bg-black rotate-0 group-hover:bg-primary'"
-                                        style="mask: url('/images/icons/arrow-down.svg') no-repeat center; -webkit-mask: url('/images/icons/arrow-down.svg') no-repeat center; mask-size: contain; -webkit-mask-size: contain;">
-                                    </span>
-                                </button>
-                            </template>
+                        <template x-for="(item, index) in menuItems" :key="index">
+                            <li class="relative">
+                                <template x-if="item.sub">
+                                    <button type="button" @click.outside="openedIndex=null"
+                                        @click.stop="openedIndex = (openedIndex === index ? null : index)"
+                                        class="text-white max-xl:text-[14px] font-bold group hover:text-primary flex items-center whitespace-nowrap transition-all duration-300 gap-[10px] cursor-pointer outline-none">
+                                        <span x-text="item.name"></span>
+                                        <span class="w-[10px] h-[6px] transition-all duration-300"
+                                            :class="openedIndex === index ? 'bg-primary rotate-180' : 'bg-white group-hover:bg-primary'"
+                                            style="mask: url('/images/icons/arrow-down.svg') no-repeat center; -webkit-mask: url('/images/icons/arrow-down.svg') no-repeat center; mask-size: contain;">
+                                        </span>
+                                    </button>
+                                </template>
+                                <template x-if="!item.sub">
+                                    <a :href="item.link"
+                                        class="text-white whitespace-nowrap max-xl:text-[14px] font-bold hover:text-primary transition-all leading-none"
+                                        x-text="item.name"></a>
+                                </template>
 
-                            <template x-if="!item.sub">
-                                <a :href="item.link"
-                                    class="text-dark leading-none flex items-center transition-all duration-300 hover:text-primary "
-                                    x-text="item.name"></a>
-                            </template>
+                                <template x-if="item.sub">
+                                    <ul x-show="openedIndex === index" x-transition
+                                        class="absolute left-1/2 -translate-x-1/2 top-full mt-4 p-[10px] w-[230px] bg-white shadow-xl z-50">
+                                        <template x-for="subItem in item.sub">
+                                            <li><a :href="item.link"
+                                                    class="text-dark bg-gray-100 h-8 flex items-center hover:bg-gray-200 mb-1"
+                                                    x-text="subItem"></a></li>
+                                        </template>
+                                    </ul>
+                                </template>
+                            </li>
+                        </template>
 
-                            <template x-if="item.sub">
-                                <ul x-show="openedIndex === index" x-transition:enter="transition ease-out duration-200"
-                                    x-transition:enter-start="opacity-0 scale-95 -translate-y-2"
-                                    x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                                    x-transition:leave="transition ease-in duration-150"
-                                    x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                                    x-transition:leave-end="opacity-0 scale-95 -translate-y-2"
-                                    class="absolute left-1/2 -translate-x-1/2 top-full mt-4 p-[10px] h-auto flex flex-col gap-[3px] w-[230px] bg-white shadow-xl z-50"
-                                    style="display: none;">
-
-                                    <template x-for="subItem in item.sub">
-                                        <li class="w-full">
-                                            <a :href="item.link"
-                                                class="text-dark transition-all duration-300 bg-gray-100 h-8 pl-[18px] flex items-center w-full font-medium hover:bg-gray-200"
-                                                x-text="subItem">
-                                            </a>
-                                        </li>
-                                    </template>
-                                </ul>
-                            </template>
+                        <li class="max-w-min">
+                            <button @click.stop="searchOpen = true"
+                                class="group flex items-center cursor-pointer outline-none 2xl:ml-2">
+                                <div href="#"
+                                    class="min-h-10 max-h-10 grid place-items-center rounded-full group cursor-pointer aspect-square border border-white/30 duration-300 hover:border-primary/30 max-sm:hidden">
+                                    <div class="bg-white min-w-6 max-w-6 aspect-square group-hover:bg-primary transition-colors"
+                                        style="mask: url('/images/icons/search.svg') no-repeat center; mask-size: contain;">
+                                    </div>
+                                </div>
+                            </button>
                         </li>
-                    </template>
-                </ul>
-            </nav>
-            <div class="flex max-sm:justify-end max-sm:w-[50%] items-center gap-[14px]">
-                <button
-                    class="min-w-10 max-sm:hidden group rounded-full hover:border-primary/30 cursor-pointer aspect-square p-2 border border-black/30 duration-300">
-                    <div class="bg-black min-w-[22px] aspect-square group-hover:bg-primary transition-colors" style="mask: url('/images/icons/search.svg') no-repeat center; 
-               -webkit-mask: url('/images/icons/search.svg') no-repeat center; 
-               mask-size: contain; 
-               -webkit-mask-size: contain;">
+                    </ul>
+                </nav>
+            </div>
 
+            <div class="flex items-center gap-[14px] shrink-0 z-50">
+                <button @click.stop="searchOpen = true"
+                    class="group  max-sm:hidden xl:hidden flex items-center cursor-pointer outline-none 2xl:ml-2">
+                    <div href="#"
+                        class="min-h-10 max-h-10 grid place-items-center rounded-full group cursor-pointer aspect-square border border-white/30 duration-300 hover:border-primary/30">
+                        <div class="bg-white min-w-6 max-w-6 aspect-square group-hover:bg-primary transition-colors"
+                            style="mask: url('/images/icons/search.svg') no-repeat center; mask-size: contain;"></div>
                     </div>
                 </button>
-                <a href="#"
-                    class="flex max-sm:h-[50px] group transition-all duration-300 items-center max-sm:gap-4 gap-5 text-dark hover:text-primary tracking-[0.4px] leading-[100%] font-bold">
-                    <div>
-
-                        <button
-                            class="min-h-10 rounded-full group-hover:border-primary/30 cursor-pointer aspect-square max-sm:border-0 max-sm:p-0 max-sm:min-h-6 p-2 border border-black/30 duration-300">
-                            <div class="bg-black min-w-6 aspect-square group-hover:bg-primary transition-colors " style="mask: url('/images/icons/contact.svg') no-repeat center; 
-               -webkit-mask: url('/images/icons/contact.svg') no-repeat center; 
-               mask-size: contain; 
-               -webkit-mask-size: contain;">
-                            </div>
-                        </button>
+                <a href="tel:+74991131104" class="flex group  max-2xl:gap-2! max-sm:gap-[10px] items-center gap-5">
+                    <div href="#"
+                        class="min-h-10 max-sm:border-0 max-h-10 grid place-items-center rounded-full group cursor-pointer aspect-square border border-white/30 duration-300 group-hover:border-primary/30 ">
+                        <div class="bg-white min-w-6 max-w-6 aspect-square group-hover:bg-primary transition-colors"
+                            style="mask: url('/images/icons/whatsapp.svg') no-repeat center; mask-size: contain;"></div>
                     </div>
 
-                    <span class="whitespace-nowrap max-sm:mb-[2px] max-sm:text-[14px]">
-
+                    <div
+                        class="text-white group-hover:text-primary tracking-[0.1px] leading-[100%] font-bold transition-all whitespace-nowrap max-sm:text-[14px]">
                         +7 (499) 113-11-04
-                    </span>
+                    </div>
                 </a>
 
             </div>
-            <div class="xl:hidden flex items-center max-sm:w-full">
-
-                <button class=" min-w-[35px] h-[20px] group object-cover cursor-pointer" src="/images/icons/" alt="=">
-                    <div class="bg-white w-[35px] h-5 group-hover:bg-primary transition-colors" style="mask: url('/images/icons/menu.svg') no-repeat center; 
-               -webkit-mask: url('/images/icons/menu.svg') no-repeat center; 
-               mask-size: contain; 
-               -webkit-mask-size: contain;">
-
-                    </div>
-                </button>
+        </div>
+        <div class="pt-[22px] flex gap-3 px-[20px] w-full min-h-[62px] border-t border-white/30 sm:hidden">
+            <div
+                class="border leading-[100%] border-white/30 uppercase grid place-items-center text-white/80 max-w-[92px] w-full h-[40px] font-semi text-[10.35px] tracking-0">
+                Фильтр
+            </div>
+            <div
+                class="flex leading-[100%] justify-between w-full text-[10.35px] text-white/80 items-center border border-white/30 px-[14px] ">
+                <input placeholder="ПОИСК" class="placeholder-white/80" />
+                <img src="/images/icons/search.svg" class="w-[17px] object-contain " alt="search" />
             </div>
         </div>
+        <ul
+            class="fixed xl:hidden shadow-[-1px_-1px_3px_#dfdfdf] pt-6 pb-5 flex justify-between px-[14px] bottom-0 w-screen bg-white">
+            <template x-for="(item, index) in mobileMenu" :key="index">
+                <li><a href="item.link"
+                        class="text-[12px] flex flex-col gap-1 items-center font-semibold leading-[140%]">
+                        <img :alt="item.name" class="w-[45px] object-contain"
+                            :src="'/images/icons/'+item.icon+'.svg'" />
+                        <span x-text="item.name"></span>
+                    </a></li>
+            </template>
+        </ul>
     </header>
-
     <main class="container" x-data="{
         product: [
           'images/stones/marble.jpg', 'images/stones/marble.jpg',

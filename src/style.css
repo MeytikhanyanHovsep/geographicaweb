@@ -5,8 +5,8 @@
 
 .container {
   max-width: 1324px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -42,6 +42,27 @@
   display: none !important;
 }
 
+.swiper-prev {
+  display: grid;
+  padding-right: 2px;
+  place-items: center;
+}
+
+.swiper-prev img {
+  min-width: 8px !important;
+}
+
+.swiper-next {
+  display: grid;
+  padding-left: 2px;
+  place-items: center;
+}
+
+.swiper-next img {
+  min-width: 8px !important;
+}
+
+
 
 @media screen and (max-width:1028px) {
   .container {
@@ -59,6 +80,10 @@
   .swiper-next {
     display: none;
   }
+}
+
+input {
+  outline: 0;
 }
 
 input[type=range] {
@@ -150,6 +175,10 @@ a {
 
 .line-detail {
   background: linear-gradient(to right, white, #676767, #676767, white);
+}
+
+[x-cloak] {
+  display: none !important;
 }
 
 

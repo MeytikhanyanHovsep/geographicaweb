@@ -72,3 +72,47 @@ function sortTags() {
         },
     }
 }
+
+class ProductCard extends HTMLElement {
+    connectedCallback() {
+        // Получаем данные из атрибутов тега
+        const name = this.getAttribute('name') || 'Без названия';
+        const img = this.getAttribute('img') || '';
+
+        // Твоя верстка без изменений
+        this.innerHTML = `
+        <div class="group relative flex flex-col overflow-hidden transition-all duration-500 gap-2">
+          <div class="overflow-hidden">
+            <img src="${img}" alt="${name}"
+                class="w-full max-sm:h-[162px] h-[188px] object-cover transition-transform duration-500 will-change-transform group-hover:scale-110">
+          </div>
+          <ul class="w-full mt-[10px] grid grid-cols-3 gap-[18px]">
+            <li class="h-[28px] text-[14px] grid place-items-center border border-primary/50 text-center">
+              гранит
+            </li>
+            <li class="h-[28px] text-[14px] grid place-items-center border border-primary/50 text-center">
+              песчаник
+            </li>
+            <li class="h-[28px] text-[14px] grid place-items-center border border-primary/50 text-center">
+              камень
+            </li>
+          </ul>
+          <h3 class="text-[14px] font-bold text-dark tracking-wide">${name}</h3>
+          <p class="text-dark leading-[130%] max-sm:tracking-[0.3px] max-w-[353px] text-[14px] mb-[7px]">
+            Благодаря превосходным качествам, изделия из гранита находят широкое применение во всех сферах жизнедеятельности человека
+          </p>
+          <div class="flex mb-[10px] gap-[17px] justify-center items-center text-[14px] text-dark">
+            <span class="text-dark font-bold whitespace-nowrap">от 7 950 руб. / м²</span>
+            <p class="bg-dark/4 w-full h-[28px] flex justify-center gap-[11px] items-center">
+              <span class="w-[9px] animate-pulse aspect-square rounded-full bg-primary"></span> хорошая цена
+            </p>
+          </div>
+          <button class="h-[55px] bg-transparent text-dark cursor-pointer font-bold text-[14px] border-2 border-primary hover:bg-primary transition-all">
+            Заказать
+          </button>
+        </div>
+    `;
+    }
+}
+
+customElements.define('product-card', ProductCard);
